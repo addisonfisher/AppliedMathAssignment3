@@ -24,7 +24,7 @@ function [t_list,X_list,h_avg, num_evals] = explicit_midpoint_fixed_step_integra
     X_list = zeros(num_steps + 1, size(X0, 1)); 
 
     t_list(1) = t_start;
-    X_list(1, :) = X0'; 
+    X_list(1, :) = X0'; %is the apostrophe supposed to be here 
     
     total_num_evals = 0;
 
