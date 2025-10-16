@@ -15,23 +15,21 @@
 
 function [t_list,X_list,h_avg, num_evals] = forward_euler_fixed_step_integration(rate_func_in,tspan,X0,h_ref)
     
-    t_list = [];
     X_list = [];
-    X_list(end) = X0;
-    h_list = [];
-    t_start = t_span(1);
-    eval_num = [];
+    X_list(:,1) = X0;
+    num_evals = 0;
 
-    %Looping through t + hvals while less than t_span(2)
-        h_list(end) = t_val - t_start;
+    t_start = tspan(1);
+    t_end = tspan(2);
 
-        [X_list(end), eval_num(end)] = forward_euler_step(rate_func_in,t_val,X_list(end),h);
+    t_list = t_start:h_ref:t_end;
+    num_steps = length(t_list);
 
-        t_start = T_val;
-
-    %end of loop
+    for i=1:num_steps-1
+        [X_list(:,i+1), num_evals_step] = forward_euler_step(rate_func_in,t_list(i),X_list(:,i),h_ref);
+        num_evals = num_evals + num_evals_step;
+    end
     
-    h_avg = mean(h_list);
-    num_evals = sum(h_avg);
+    h_avg = mean(diff(t_list));
 
 end
