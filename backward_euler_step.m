@@ -23,7 +23,7 @@ function [XB,num_evals] = backward_euler_step(rate_func_in,t,XA,h)
     solver_params.approx = 1;
 
     X_initial = XA;
-
+    addpath('./Applied-Math-Assignment-2');
     [XB, num_evals, ~] = multi_newton_solver(G, X_initial, solver_params);
 
 end

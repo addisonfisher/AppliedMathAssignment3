@@ -35,19 +35,19 @@ function comparison_plots
     title('Forward Euler Approximations');
     hold off;
 
-    % %Computing & Plotting the Backward Euler Approximation for various timesteps
-    % figure()
-    % for i =1:length(h_ref)
-    %     [T1_BE{i},  X1_BE{i}, ~, ~] = fixed_step_integration(@rate_func01, @backward_euler_step, t_span, X0, h_ref(i));
-    %     plot(T1_BE{i}, X1_BE{i},'--', 'DisplayName', 'Step Value ' + string(h_ref(i)));
-    %     hold on;
-    % end
-    % X1_sol = solution01(T1_BE{1});
-    % plot(T1_BE{1}, X1_sol, 'r-', 'DisplayName', 'Solution');
-    % ylim([-1.5 1.5]);
-    % legend();
-    % title('Backward Euler Approximations');
-    % hold off;
+    %Computing & Plotting the Backward Euler Approximation for various timesteps
+    figure()
+    for i =1:length(h_ref)
+        [T1_BE{i},  X1_BE{i}, ~, ~] = fixed_step_integration(@rate_func01, @backward_euler_step, t_span, X0, h_ref(i));
+        plot(T1_BE{i}, X1_BE{i},'--', 'DisplayName', 'Step Value ' + string(h_ref(i)));
+        hold on;
+    end
+    X1_sol = solution01(T1_BE{1});
+    plot(T1_BE{1}, X1_sol, 'r-', 'DisplayName', 'Solution');
+    ylim([-1.5 1.5]);
+    legend();
+    title('Backward Euler Approximations');
+    hold off;
 
      %Computing & Plotting the Explicit Midpoint Approximation for various timesteps
     figure()
