@@ -1,5 +1,5 @@
 %This function computes the value of X at the next time step
-%using the Backward Euler approximation
+%using the implicit midpoint approximation
 %INPUTS:
 %rate_func_in: the function used to compute dXdt. rate_func_in will
 % have the form: dXdt = rate_func_in(t,X) (t is before X)
@@ -11,10 +11,9 @@
 % formula depends on the integration method used
 %num_evals: A count of the number of times that you called
 % rate_func_in when computing the next step
-function [XB,num_evals] = backward_euler_step(rate_func_in,t,XA,h)
-    %define func to get root by passing through newton's
-    G = @(X_next_guess) XA + h * rate_func_in(t + h, X_next_guess) - X_next_guess;
-    
+function [XB,num_evals] = implicit_midpoint_step(rate_func_in,t,XA,h)
+    G = @(X_next_guess) XA + h * rate_func_in(t + h/2, 0.5 * (XA + X_next_guess)) - X_next_guess;
+        
     solver_params = struct();
     solver_params.dxmin = 1e-10;
     solver_params.ftol = 1e-10;
@@ -24,6 +23,5 @@ function [XB,num_evals] = backward_euler_step(rate_func_in,t,XA,h)
 
     X_initial = XA;
 
-    [XB, ~, num_evals] = multi_newton_solver(G, X_initial, solver_params);
-
+    [XB, num_evals, ~] = multi_newton_solver(G, X_initial, solver_params);
 end
