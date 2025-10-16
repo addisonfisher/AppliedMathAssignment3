@@ -12,7 +12,22 @@
 %num_evals: A count of the number of times that you called
 % rate_func_in when computing the next step
 function [XB,num_evals] = implicit_midpoint_step(rate_func_in,t,XA,h)
+<<<<<<< HEAD
 
 
 
+=======
+    G = @(X_next_guess) XA + h * rate_func_in(t + h/2, 0.5 * (XA + X_next_guess)) - X_next_guess;
+        
+    solver_params = struct();
+    solver_params.dxmin = 1e-10;
+    solver_params.ftol = 1e-10;
+    solver_params.dxmax = 1e8;
+    solver_params.maxiter = 200;
+    solver_params.approx = 1;
+
+    X_initial = XA;
+
+    [XB, num_evals, ~] = multi_newton_solver(G, X_initial, solver_params);
+>>>>>>> 6c8000161f36a033756b6f9c53430f2dec786213
 end
