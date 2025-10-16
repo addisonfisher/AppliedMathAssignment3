@@ -1,4 +1,3 @@
-% Example: simple exponential decay dx/dt = -2x
 function comparison_plots
     t_span = [0,10];
     X0 = 1;
