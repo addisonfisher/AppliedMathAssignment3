@@ -1,12 +1,12 @@
 function global_error_func()
     % set up the experiment parameters
-    t_end = 10;
-
+    t_end = 100;
+    addpath('Applied-Math-Assignment-2');
     % calculate p-values for the first test function
     [p_be1, p_im1] = calculate_for_test_function(@rate_func01, @solution01, t_end, 1);
 
     % calculate p-values for the second test function
-    [p_be2, p_im2] = calculate_for_test_function(@rate_func02, @solution02, 1000, [1; 0]);
+    [p_be2, p_im2] = calculate_for_test_function(@rate_func02, @solution02, t_end, [1; 0]);
 
     % display the results in a table
     fprintf('\n--- Global Error vs. Function Evals (p-values) ---\n');
