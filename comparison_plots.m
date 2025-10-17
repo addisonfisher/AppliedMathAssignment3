@@ -80,5 +80,42 @@ function comparison_plots
     legend();
     title('Implicit Midpoint Approximations');
     hold off;
+    t_ref = 0.492;
+    h_values = logspace(-5, 0, 100);
+    fe_errors = zeros(1, length(h_values));
+    be_errors = zeros(1, length(h_values));
+    em_errors = zeros(1, length(h_values));
+    im_errors = zeros(1, length(h_values));
 
+    for i = 1:length(h_values)
+        h = h_values(i);
+        x_t = solution01(t_ref);
+        x_t_plus_h = solution01(t_ref + h);
+
+        x_next_fe = forward_euler_step(@rate_func01, t_ref, x_t, h);
+        fe_errors(i) = norm(x_next_fe - x_t_plus_h);
+
+        x_next_be = backward_euler_step(@rate_func01, t_ref, x_t, h);
+        be_errors(i) = norm(x_next_be - x_t_plus_h);
+
+        x_next_em = explicit_midpoint_step(@rate_func01, t_ref, x_t, h);
+        em_errors(i) = norm(x_next_em - x_t_plus_h);
+
+        x_next_im = implicit_midpoint_step(@rate_func01, t_ref, x_t, h);
+        im_errors(i) = norm(x_next_im - x_t_plus_h);
+    end
+
+    figure;
+    hold on;
+    loglog(h_values, fe_errors, '-', 'DisplayName', 'Forward Euler');
+    loglog(h_values, be_errors, '-', 'DisplayName', 'Backward Euler');
+    loglog(h_values, em_errors, '-', 'DisplayName', 'Explicit Midpoint');
+    loglog(h_values, im_errors, '-', 'DisplayName', 'Implicit Midpoint');
+    title('Local Truncation Error for All Methods');
+    xlabel('Step Size (h)');
+    ylabel('Local Truncation Error');
+    legend('show', 'Location', 'northwest');
+    grid on;
+    hold off;
 end
+
